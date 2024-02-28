@@ -69,6 +69,7 @@ def show_edit_user_form(user_id):
 # Process the edit form, returning the user to the /users page
 @app.route('/users/<int:user_id>/edit', methods=['POST'])
 def edit_user(user_id):
+    """Process the edit form, returning the user to the /users page."""
     user = User.query.get_or_404(user_id)
     user.first_name = request.form['first_name']
     user.last_name = request.form['last_name']
@@ -79,6 +80,7 @@ def edit_user(user_id):
 # Delete the user
 @app.route('/users/<int:user_id>/delete', methods=['POST'])
 def delete_user(user_id):
+    """Delete the user."""
     user = User.query.get_or_404(user_id)
     db.session.delete(user)
     db.session.commit()
@@ -87,6 +89,7 @@ def delete_user(user_id):
 # Show form to add a new post
 @app.route('/users/<int:user_id>/posts/new', methods=['GET'])
 def show_add_post_form(user_id):
+    """Show form to add a new post."""
     user = User.query.get_or_404(user_id)
     tags = Tag.query.all()  # Fetch all tags
     return render_template('new_post_form.html', user=user, tags=tags)
@@ -94,6 +97,7 @@ def show_add_post_form(user_id):
 # Handle form submission to add a new post
 @app.route('/users/<int:user_id>/posts/new', methods=['POST'])
 def add_new_post(user_id):
+    """Handle form submission to add a new post."""
     user = User.query.get_or_404(user_id)
     title = request.form['title']
     content = request.form['content']
@@ -119,12 +123,14 @@ def add_new_post(user_id):
 # Show details of a specific post
 @app.route('/posts/<int:post_id>')
 def show_post_detail(post_id):
+    """Show details of a specific post."""
     post = Post.query.get_or_404(post_id)
     return render_template('post_detail.html', post=post)
 
 # Show form to edit a post
 @app.route('/posts/<int:post_id>/edit', methods=['GET'])
 def show_edit_post_form(post_id):
+    """Show form to edit a post."""
     post = Post.query.get_or_404(post_id)
     tags = Tag.query.all()  # Fetch all tags
     return render_template('edit_post_form.html', post=post, tags=tags)
@@ -132,6 +138,7 @@ def show_edit_post_form(post_id):
 # Handle form submission to edit a post
 @app.route('/posts/<int:post_id>/edit', methods=['POST'])
 def edit_post(post_id):
+    """Handle form submission to edit a post."""
     post = Post.query.get_or_404(post_id)
     post.title = request.form['title']
     post.content = request.form['content']
@@ -151,6 +158,7 @@ def edit_post(post_id):
 # Delete a post
 @app.route('/posts/<int:post_id>/delete', methods=['POST'])
 def delete_post(post_id):
+    """Delete a post."""
     post = Post.query.get_or_404(post_id)
     user_id = post.user_id  # Store user_id before deleting post
     db.session.delete(post)
@@ -160,6 +168,7 @@ def delete_post(post_id):
 # Error handler for 404 error
 @app.errorhandler(404)
 def page_not_found(error):
+    """Custom 404 page."""
     return render_template('404.html'), 404
 
 @app.route('/tags')
