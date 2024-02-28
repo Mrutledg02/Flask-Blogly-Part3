@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <img src="{{ user.image_url }}" alt="{{ user.first_name }}" class="img-fluid rounded">
+        </div>
+        <div class="col-md-8">
+            <div class="mb-3">
+                <h3 class="user-name"><strong>{{ user.first_name }} {{ user.last_name }}</strong></h3>
+            </div>
+            <div class="mb-4">
+                <a href="{{ url_for('show_edit_user_form', user_id=user.id) }}" class="btn btn-primary mr-2">Edit</a>
+                <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-3">Posts</h2>
+            <ul class="list-group">
+                {% for post in user.posts %}
+                    <li class="list-group-item">
+                        <a href="{{ url_for('show_post_detail', post_id=post.id) }}">{{ post.title }}</a>
+                        <small class="text-muted">Posted on: {{ post.created_at.strftime('%B %d, %Y, %I:%M %p') }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+            <a href="{{ url_for('show_add_post_form', user_id=user.id) }}" class="btn btn-primary">Add Post</a>
+        </div>
+    </div>
+{% endblock %}
