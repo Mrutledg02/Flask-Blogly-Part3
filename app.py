@@ -36,6 +36,7 @@ def show_all_users():
 # Show an add form for users
 @app.route('/users/new', methods=['GET'])
 def show_add_user_form():
+    """Display a form for adding a new user."""
     return render_template('new_user_form.html')
 
 # Process the add form, adding a new user and going back to /users
